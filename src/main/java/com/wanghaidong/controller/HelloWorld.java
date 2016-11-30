@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,23 @@ import com.wanghaidong.entity.User;
 public class HelloWorld {
 
 	private static final String SUCCESS="success";
+	
+	@ModelAttribute
+	public void getUser(@RequestParam(value="id",required=false) Integer id,
+			Map<String,Object> map){
+		System.out.println("ModelAttribute!!");
+		if(id != null){
+			System.out.println("Emulate Database Operation!!");
+			User user = new User(1, "lily", "123456", "lily@sina.com", 25);
+			System.out.println("Data: " + user);
+			map.put("user", user);
+		}
+	}
+	@RequestMapping(value="testModelAttribute",method=RequestMethod.POST)
+	public String testModelAttribute(User user){
+		System.out.println("testModelAttribute : "+user);
+		return SUCCESS;
+	}
 	@RequestMapping("testMap")
 	public String testMap(Map<String,Object> map){
 		//map.put("name", Arrays.asList("zhangsan","lisi","wanger"));
