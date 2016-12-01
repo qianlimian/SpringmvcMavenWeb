@@ -1,11 +1,15 @@
 <html>
 <body>
+	<a href="crud">CRUD</a>
+	<a href="testRedirect">testRedirect</a>
+	<br><br>
+	<a href="testView">testView</a>
 	<form action="testModelAttribute" method="post">
-		<input type="hidden" name="id" value="1"> 
-		Username:<input type="text" name="username" value="tom"> 
-		Email:<input type="text" name="email" value="tom@sina.com">
-		Age:<input type="text" name="age" value="15"> 
-		<input type="submit" value="submit">
+		<input type="hidden" name="id" value="1"> Username:<input
+			type="text" name="username" value="tom"> Email:<input
+			type="text" name="email" value="tom@sina.com"> Age:<input
+			type="text" name="age" value="15"> <input type="submit"
+			value="submit">
 	</form>
 	<br>
 	<br>

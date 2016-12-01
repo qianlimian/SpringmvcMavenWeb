@@ -18,6 +18,17 @@ import com.wanghaidong.entity.User;
 public class HelloWorld {
 
 	private static final String SUCCESS="success";
+	//WEB-INF目录下不能直接转发吗？
+	@RequestMapping("testRedirect")
+	public String testRedirect(){
+		System.out.println("testRedirect!");
+		return "forward:/static/index.jsp";
+	}
+	@RequestMapping("testView")
+	public String testView(){
+		System.out.println("testView!!");
+		return "helloView";
+	}
 	
 	@ModelAttribute
 	public void getUser(@RequestParam(value="id",required=false) Integer id,
@@ -37,8 +48,8 @@ public class HelloWorld {
 	}
 	@RequestMapping("testMap")
 	public String testMap(Map<String,Object> map){
-		//map.put("name", Arrays.asList("zhangsan","lisi","wanger"));
-		map.put("name", new String[]{"zhangsan","lisi","wangerzhuang"});
+		map.put("name", Arrays.asList("zhangsan","lisi","wanger"));
+		//map.put("name", new String[]{"zhangsan","lisi","wangerzhuang"});
 		return SUCCESS;
 	}
 	@RequestMapping("testModelAndView")

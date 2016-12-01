@@ -15,7 +15,7 @@
         http://www.springframework.org/schema/task 
         http://www.springframework.org/schema/task/spring-task.xsd">
 	<!-- <mvc:resources location="/static/" mapping="/static/**/"></mvc:resources> -->
-	<context:component-scan base-package="com.wanghaidong.controller,com.wanghaidong.view"></context:component-scan>
+	<context:component-scan base-package="com.wanghaidong.controller,com.wanghaidong.view,com.crud"></context:component-scan>
 	
 	<!-- InternalViewResolver -->
 	<bean
@@ -35,6 +35,8 @@
 	</bean>
 	<!-- 直接进入相应的页面，不需要经过Handler的转发 -->
 	<mvc:view-controller path="/success" view-name="success"></mvc:view-controller>
+	<!-- jstl测试 -->
+	<mvc:view-controller path="/jstl" view-name="jstl"/>
 	
 	<mvc:annotation-driven></mvc:annotation-driven>
 	
