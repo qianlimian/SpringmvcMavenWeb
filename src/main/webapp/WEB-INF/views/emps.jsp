@@ -23,12 +23,15 @@
 		<td>${emp.id }</td>
 		<td>${emp.lastName }</td>
 		<td>${emp.email }</td>
-		<td>${emp.gender == 0 ? Female : Male }</td>
+		<td>${emp.gender == 0 ? "Female" : "Male" }</td>
 		<td>${emp.department.departmentName }</td>
 		<td><a href="#">Edit</a></td>
 		<td><a href="#">Delete</a></td>
 		</tr>
 		</c:forEach>
+		
 	</table>
+	<br><br>
+	<a href="emp">Add Employee</a>
 </body>
 </html>

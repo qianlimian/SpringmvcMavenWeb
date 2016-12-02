@@ -44,6 +44,10 @@ public class Employee {
 		this.gender = gender;
 		this.department = department;
 	}
+	public Employee() {
+		super();
+	}
+	
 	
 	
 
