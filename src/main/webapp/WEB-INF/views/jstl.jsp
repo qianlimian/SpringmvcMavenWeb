@@ -1,6 +1,7 @@
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Enumeration"%>
+<%@ page import="java.io.*,java.util.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -55,5 +56,53 @@
 	<h2>获取GET请求的参数</h2>
 	<h3><%= request.getParameter("name") %></h3>
 	<h3><%= request.getParameter("age") %></h3>
+	
+	<h2>JSP　Session</h2>
+	<%
+		Date createTime = new Date(session.getCreationTime());
+		Date lastAccessTime = new Date(session.getLastAccessedTime());
+		String title = "再次访问网站";
+		Integer visitCount = new Integer(0);
+		String visitCountKey = new String("visitCount");
+		String userIdKey = new String("userId");
+		String userId = new String("abcd");
+		
+		if(session.isNew()){
+			title="初次访问！";
+			session.setAttribute(visitCountKey, visitCount);
+			session.setAttribute(userIdKey, userId);
+		}else{
+			visitCount = (Integer)session.getAttribute(visitCountKey);
+			visitCount++;
+			userId = (String)session.getAttribute(userIdKey);
+			session.setAttribute(visitCountKey, visitCount);
+		}
+	%>
+	<table border="1" align="center">
+		<tr>
+			<th>Session信息</th>
+			<th>值</th>>
+		</tr>
+		<tr>
+			<td>id</td>
+			<td><% out.println(session.getId()); %>></td>
+		</tr>
+		<tr>
+			<td>创建时间</td>
+			<td><% out.println(session.getCreationTime()); %>></td>
+		</tr>
+		<tr>
+			<td>最后访问时间</td>
+			<td><% out.println(session.getLastAccessedTime()); %></td>
+		</tr>
+		<tr>
+			<td>用户 ID</td>
+			<td><% out.println(session.getAttribute(userIdKey)); %></td>
+		</tr>
+		<tr>
+			<td>访问次数</td>
+			<td><% out.println(session.getAttribute(visitCountKey)); %></td>
+		</tr>
+	</table>
 </body>
 </html>

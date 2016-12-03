@@ -16,12 +16,13 @@
         <servlet-name>appServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    <!-- 把POST请求转化为PUT请求和DELETE请求 -->
     <filter>
     	<filter-name>HiddenHttpMethodFilter</filter-name>
     	<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
     </filter>
     <filter-mapping>
     	<filter-name>HiddenHttpMethodFilter</filter-name>
-    	<url-pattern>/</url-pattern>
+    	<url-pattern>/*</url-pattern>
     </filter-mapping>
 </web-app>

@@ -23,6 +23,13 @@ public class EmployeeDao {
 		employees.put(1005, new Employee(1005, "E-EE", "ee@163.com", 1, new Department(105, "D-EE")));
 	}
 	private static Integer initId = 1006;
+	/**
+	 * 新增和修改的逻辑
+	 * @description
+	 * @return void
+	 * @author wanghaidong
+	 * @date 2016年12月3日 上午9:11:33
+	 */
 	public void save(Employee employee){
 		if(employee.getId()==null){
 			employee.setId(initId++);

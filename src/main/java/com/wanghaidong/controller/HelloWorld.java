@@ -70,7 +70,7 @@ public class HelloWorld {
 	}
 	@RequestMapping("testREST/{id}")
 	public String testPathVariable(@PathVariable(value="id") Integer id){
-		System.out.println("GET:id = "+id);
+		System.out.println("GET");
 		return SUCCESS;
 	}
 	@RequestMapping(value="testREST",method=RequestMethod.POST)
@@ -78,10 +78,11 @@ public class HelloWorld {
 		System.out.println("POST");
 		return SUCCESS;
 	}
+	//不能直接return SUCCESS ??
 	@RequestMapping(value="testREST/{id}",method=RequestMethod.DELETE)
 	public String testDelete(@PathVariable(value="id") Integer id){
 		System.out.println("DELETE");
-		return SUCCESS;
+		return "redirect:/helloWorld";
 	}
 	@RequestMapping(value="testREST/{id}",method=RequestMethod.PUT)
 	public String testPut(@PathVariable(value="id") Integer id){

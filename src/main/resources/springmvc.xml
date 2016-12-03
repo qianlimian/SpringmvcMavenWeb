@@ -38,6 +38,9 @@
 	<!-- jstl测试 -->
 	<mvc:view-controller path="/jstl" view-name="jstl"/>
 	
+	<!-- 处理静态资源 -->
+	<mvc:default-servlet-handler></mvc:default-servlet-handler>
+	
 	<mvc:annotation-driven></mvc:annotation-driven>
 	
 	
