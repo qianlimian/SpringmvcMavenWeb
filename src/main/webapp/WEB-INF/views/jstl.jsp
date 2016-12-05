@@ -37,72 +37,18 @@
 		}
 	%>
 	</table>
-	<h2>Response自动刷新</h2>
+	<h2>页面点击次数</h2>
 	<%
-		//response.setIntHeader("Refresh", 1);
-		Calendar calendar = new GregorianCalendar();
-		String am_pm;
-		int hour = calendar.get(Calendar.HOUR);
-		int minute = calendar.get(Calendar.MINUTE);
-		int second = calendar.get(Calendar.SECOND);
-		if(calendar.get(Calendar.AM_PM)==0){
-			am_pm = "AM";
+		Integer hitCount = (Integer)application.getAttribute("hitCount");
+		if(hitCount==null && hitCount == 0){
+			out.println("Welcome new comer !!");
+			hitCount = 1;
+			application.setAttribute("hitCount", hitCount);
 		}else{
-			am_pm = "PM";
+			out.println("You have visited "+hitCount+" times!");
+			hitCount++;
 		}
-		String CT = hour+":"+minute+":"+second+":"+" "+am_pm;
-		out.println(CT);
 	%>
-	<h2>获取GET请求的参数</h2>
-	<h3><%= request.getParameter("name") %></h3>
-	<h3><%= request.getParameter("age") %></h3>
 	
-	<h2>JSP　Session</h2>
-	<%
-		Date createTime = new Date(session.getCreationTime());
-		Date lastAccessTime = new Date(session.getLastAccessedTime());
-		String title = "再次访问网站";
-		Integer visitCount = new Integer(0);
-		String visitCountKey = new String("visitCount");
-		String userIdKey = new String("userId");
-		String userId = new String("abcd");
-		
-		if(session.isNew()){
-			title="初次访问！";
-			session.setAttribute(visitCountKey, visitCount);
-			session.setAttribute(userIdKey, userId);
-		}else{
-			visitCount = (Integer)session.getAttribute(visitCountKey);
-			visitCount++;
-			userId = (String)session.getAttribute(userIdKey);
-			session.setAttribute(visitCountKey, visitCount);
-		}
-	%>
-	<table border="1" align="center">
-		<tr>
-			<th>Session信息</th>
-			<th>值</th>>
-		</tr>
-		<tr>
-			<td>id</td>
-			<td><% out.println(session.getId()); %>></td>
-		</tr>
-		<tr>
-			<td>创建时间</td>
-			<td><% out.println(session.getCreationTime()); %>></td>
-		</tr>
-		<tr>
-			<td>最后访问时间</td>
-			<td><% out.println(session.getLastAccessedTime()); %></td>
-		</tr>
-		<tr>
-			<td>用户 ID</td>
-			<td><% out.println(session.getAttribute(userIdKey)); %></td>
-		</tr>
-		<tr>
-			<td>访问次数</td>
-			<td><% out.println(session.getAttribute(visitCountKey)); %></td>
-		</tr>
-	</table>
 </body>
 </html>

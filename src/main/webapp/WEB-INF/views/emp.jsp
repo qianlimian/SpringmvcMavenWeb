@@ -11,6 +11,13 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<!-- 自定义类型转换器 -->
+	<!-- GG-gg@sina.com-0-105 -->
+	<form action="${pageContext.request.contextPath }/testConverter" method="post">
+		Employee:<input type="text" name="employee">
+		<br><br>
+		<input type="submit" value="submit">
+	</form>
 	<!-- 这里的modelAttribute是必须要有的，若没有会到请求域中查找键为command的的键值对，找不到会报错 -->
 	<!-- action路径是一个绝对路径，如果是相对路径在不同的请求页面可能会有所不同 -->
 	<form:form action="${pageContext.request.contextPath }/emp" method="post" modelAttribute="employee"> 

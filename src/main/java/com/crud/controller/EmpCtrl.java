@@ -95,4 +95,17 @@ public class EmpCtrl {
 			map.put("employee", employeeDao.get(id));
 		}
 	}
+	/**
+	 * 测试自定义的类型转换器
+	 * ConvertService
+	 * @description
+	 * @return String
+	 * @author wanghaidong
+	 * @date 2016年12月5日 下午1:50:27
+	 */
+	@RequestMapping("testConverter")
+	public String testConvertService(@RequestParam("employee") Employee employee){
+		employeeDao.save(employee);
+		return "redirect:/crud";
+	}
 }
