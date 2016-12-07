@@ -1,18 +1,24 @@
 package com.crud.controller;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crud.dao.DepartmentDao;
 import com.crud.dao.EmployeeDao;
@@ -24,6 +30,8 @@ public class EmpCtrl {
 	private EmployeeDao employeeDao;
 	@Autowired
 	private DepartmentDao departmentDao;
+	@Autowired
+	private ResourceBundleMessageSource source;
 	/**
 	 * 显示所有员工的列表
 	 * @description
@@ -135,4 +143,44 @@ public class EmpCtrl {
 //	public void initBinder(WebDataBinder binder){
 //		binder.setDisallowedFields("lastName");
 //	}
+	/**
+	 * 结果返回json
+	 * @description
+	 * @return Collection<Employee>
+	 * @author wanghaidong
+	 * @date 2016年12月7日 下午1:56:06
+	 */
+	@ResponseBody
+	@RequestMapping(value="testJson",method=RequestMethod.POST)
+	public Collection<Employee> testJson(){
+		System.out.println("testJson");
+		return employeeDao.getAll();
+	}
+	/**
+	 * 
+	 * @description
+	 * @return String
+	 * @author wanghaidong
+	 * @date 2016年12月7日 下午2:28:12
+	 */
+	@ResponseBody
+	@RequestMapping(value="testHttpMessageConverter",method=RequestMethod.POST)
+	public String testHttpMessageConverter(@RequestBody String body){
+		System.out.println(body);
+		return "Hello,HttpMessageConverter"+new Date();
+	}
+	/**
+	 * 国际化
+	 * @description
+	 * @return String
+	 * @author wanghaidong
+	 * @date 2016年12月7日 下午3:01:15
+	 */
+	@ResponseBody
+	@RequestMapping(value="resourceBundleMessageSource",method=RequestMethod.POST)
+	public String testResourceBundleMessageSource(Locale locale){
+		String message = source.getMessage("i18n.username", null, locale);
+		System.out.println(message);
+		return message;
+	}
 }

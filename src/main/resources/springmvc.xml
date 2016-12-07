@@ -40,6 +40,8 @@
 	<!-- 直接进入相应的页面，不需要经过Handler的转发 -->
 	<mvc:view-controller path="/success" view-name="success"></mvc:view-controller>
 	<mvc:view-controller path="/jstl" view-name="jstl"/>
+	<mvc:view-controller path="/json" view-name="index"/>
+	<mvc:view-controller path="/i18n" view-name="i18n"/>
 	
 	<!-- 处理静态资源 -->
 	<mvc:default-servlet-handler></mvc:default-servlet-handler>
