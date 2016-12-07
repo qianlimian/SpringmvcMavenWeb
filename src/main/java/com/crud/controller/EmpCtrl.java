@@ -2,8 +2,12 @@ package com.crud.controller;
 
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,8 +57,20 @@ public class EmpCtrl {
 	 * @author wanghaidong
 	 * @date 2016年12月3日 上午9:10:44
 	 */
+	//这里的第二个参数必须是Errors类型，如果写成BindingResult类型，是不能回显的
+	//也就是用户填写的employee是不能添加到请求域中的
 	@RequestMapping(value="emp",method=RequestMethod.POST)
-	public String addEmployee(Employee employee) {
+	public String addEmployee(@Valid Employee employee,Errors result,Map<String,Object> map) {
+		//如果不进行错误的处理，当转化不成功的时候，就会直接报错
+		if(result.getErrorCount()>0){
+			System.out.println("出错了");
+			for(FieldError error : result.getFieldErrors()){
+				System.out.println(error.getField()+" : "+error.getDefaultMessage());
+				map.put("departments", departmentDao.getAll());
+				return "emp";
+			}
+		}
+		System.out.println("Save: "+employee);
 		employeeDao.save(employee);
 		return "forward:/crud";
 	}
@@ -108,4 +124,15 @@ public class EmpCtrl {
 		employeeDao.save(employee);
 		return "redirect:/crud";
 	}
+	/**
+	 * InitBinder
+	 * @description
+	 * @return void
+	 * @author wanghaidong
+	 * @date 2016年12月6日 上午8:25:28
+	 */
+//	@InitBinder
+//	public void initBinder(WebDataBinder binder){
+//		binder.setDisallowedFields("lastName");
+//	}
 }

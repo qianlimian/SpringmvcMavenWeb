@@ -18,11 +18,15 @@
 		<br><br>
 		<input type="submit" value="submit">
 	</form>
+	<hr><hr>
 	<!-- 这里的modelAttribute是必须要有的，若没有会到请求域中查找键为command的的键值对，找不到会报错 -->
 	<!-- action路径是一个绝对路径，如果是相对路径在不同的请求页面可能会有所不同 -->
 	<form:form action="${pageContext.request.contextPath }/emp" method="post" modelAttribute="employee"> 
+		<form:errors path="*"></form:errors>
+		<br><br>
 		<c:if test="${employee.id == null }">
 			LastName:<form:input path="lastName"/>
+			<form:errors path="lastName"></form:errors>
 		</c:if>
 		<br><br>
 		<c:if test="${employee.id != null }">
@@ -30,6 +34,7 @@
 			<input type="hidden" name="_method" value="PUT">
 		</c:if>
 		Email:<form:input path="email"/>
+		<form:errors path="email"></form:errors>
 		<%
 			Map<String,String> genders = new HashMap<String,String>();
 			genders.put("0","Female");
@@ -42,7 +47,14 @@
 		<br><br>
 		<!-- 如果form的表单项小于实际的对象属性，是否可以？？ -->
 		<!-- 可以，在新增employee的时候，就没有id这个选项 -->
+		<!-- 但是在form表单中有的，在对象中必须有 -->
 		Department:<form:select path="department.id" items="${departments }" itemLabel="departmentName" itemValue="id"></form:select>
+		<br><br>
+		Birth:<form:input path="birth"/>
+		<form:errors path="birth"></form:errors>
+		<br><br>
+		Salary:<form:input path="salary"/>
+		<form:errors path="salary"></form:errors>
 		<br><br>
 		<input type="submit" value="submit">
 	</form:form>

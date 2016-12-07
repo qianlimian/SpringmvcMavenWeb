@@ -14,7 +14,7 @@
         http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
         http://www.springframework.org/schema/task 
         http://www.springframework.org/schema/task/spring-task.xsd">
-	<!-- <mvc:resources location="/static/" mapping="/static/**/"></mvc:resources> -->
+	<!-- 需要扫描的包 -->
 	<context:component-scan base-package="com.wanghaidong.controller,com.wanghaidong.view,com.crud"></context:component-scan>
 	
 	<!-- InternalViewResolver -->
@@ -23,6 +23,8 @@
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
+	<!-- 自定义视图 -->
 	<!-- BeanNameViewResolver -->
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order" value="100"></property>
@@ -33,15 +35,19 @@
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="i18n"></property>	
 	</bean>
+	
+	
 	<!-- 直接进入相应的页面，不需要经过Handler的转发 -->
 	<mvc:view-controller path="/success" view-name="success"></mvc:view-controller>
-	<!-- jstl测试 -->
 	<mvc:view-controller path="/jstl" view-name="jstl"/>
 	
 	<!-- 处理静态资源 -->
 	<mvc:default-servlet-handler></mvc:default-servlet-handler>
 	
+	<!-- 必填的选项 -->
 	<mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
+	
+	
 	<!-- 自定义类型转化器 -->
 	<!-- 配置conversionService -->
 	<bean id="conversionService"
