@@ -39,5 +39,12 @@
 		<input type="hidden" name="_method" value="DELETE"> 
 		<input type="submit" value="DELETE">
 	</form>
+	
+	<hr><hr>
+	<form action="testFileUpload" method="post" enctype="multipart/form-data">
+		File:<input type="file" name="file"><br>
+		Desc:<input type="text" name="desc"><br>
+		<input type="submit" value="submit">
+	</form>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.crud.controller;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.crud.dao.DepartmentDao;
 import com.crud.dao.EmployeeDao;
@@ -182,5 +184,21 @@ public class EmpCtrl {
 		String message = source.getMessage("i18n.username", null, locale);
 		System.out.println(message);
 		return message;
+	}
+	/**
+	 * 文件上传
+	 * @description
+	 * @return String
+	 * @author wanghaidong
+	 * @throws IOException 
+	 * @date 2016年12月9日 上午9:01:59
+	 */
+	@RequestMapping(value="testFileUpload",method=RequestMethod.POST)
+	public String testFileUpload(@RequestParam(value="file") MultipartFile file,
+			@RequestParam(value="desc") String desc) throws IOException{
+		System.out.println("desc: "+desc);
+		System.out.println("origialName: "+file.getOriginalFilename());
+		System.out.println("InputStream: "+file.getInputStream());
+		return "success";
 	}
 }
