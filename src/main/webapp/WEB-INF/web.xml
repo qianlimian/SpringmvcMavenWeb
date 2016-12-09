@@ -14,6 +14,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>appServlet</servlet-name>
+        <!-- 拦截所有请求 -->
         <url-pattern>/</url-pattern>
     </servlet-mapping>
     <!-- 把POST请求转化为PUT请求和DELETE请求 -->

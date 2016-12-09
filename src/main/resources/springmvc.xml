@@ -15,7 +15,7 @@
         http://www.springframework.org/schema/task 
         http://www.springframework.org/schema/task/spring-task.xsd">
 	<!-- 需要扫描的包 -->
-	<context:component-scan base-package="com.wanghaidong.controller,com.wanghaidong.view,com.crud"></context:component-scan>
+	<context:component-scan base-package="com.wanghaidong,com.crud,com.myspring"></context:component-scan>
 	
 	<!-- InternalViewResolver -->
 	<bean
@@ -72,6 +72,19 @@
 	<mvc:interceptors>
 		<bean class="com.crud.interceptor.FirstInterceptor"></bean>
 	</mvc:interceptors>
+	
+	
+	<!-- 切面 -->
+	<aop:config>
+		<aop:aspect ref="audience">
+			<aop:pointcut expression="execution(** com.myspring.perform.Performance.perform(..))" id="performance"/>
+			<aop:before method="silenceCellPhones" pointcut-ref="audience"/>
+			<aop:before method="takeSeats" pointcut-ref="audience"/>
+			<aop:after-returning method="applause" pointcut-ref="audience"/>
+			<aop:after-throwing method="demandRefund" pointcut-ref="audience"/>
+		</aop:aspect>
+	</aop:config>
+	
 	
 	
 </beans>
