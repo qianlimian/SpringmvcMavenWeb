@@ -16,14 +16,14 @@
         http://www.springframework.org/schema/task/spring-task.xsd">
 	<!-- 需要扫描的包 -->
 	<context:component-scan base-package="com.wanghaidong,com.crud,com.myspring"></context:component-scan>
-	
+
 	<!-- InternalViewResolver -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
+
 	<!-- 自定义视图 -->
 	<!-- BeanNameViewResolver -->
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
@@ -33,58 +33,170 @@
 	<!-- 国际化配置 -->
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="i18n"></property>	
+		<property name="basename" value="i18n"></property>
 	</bean>
-	
-	
+
+
 	<!-- 直接进入相应的页面，不需要经过Handler的转发 -->
 	<mvc:view-controller path="/success" view-name="success"></mvc:view-controller>
-	<mvc:view-controller path="/jstl" view-name="jstl"/>
-	<mvc:view-controller path="/json" view-name="index"/>
-	<mvc:view-controller path="/i18n" view-name="i18n"/>
-	
+	<mvc:view-controller path="/jstl" view-name="jstl" />
+	<mvc:view-controller path="/json" view-name="index" />
+	<mvc:view-controller path="/i18n" view-name="i18n" />
+
 	<!-- 处理静态资源 -->
 	<mvc:default-servlet-handler></mvc:default-servlet-handler>
-	
+
 	<!-- 必填的选项 -->
 	<mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
-	
-	
+
+
 	<!-- 自定义类型转化器 -->
 	<!-- 配置conversionService -->
 	<bean id="conversionService"
 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="converters">
 			<set>
-				<ref bean="employeeConverter"/>
+				<ref bean="employeeConverter" />
 			</set>
 		</property>
 	</bean>
-	
+
 	<!-- 文件上传 -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding" value="UTF-8"></property>
 		<property name="maxUploadSize" value="1024000"></property>
 	</bean>
-	
+
 	<!-- 自定义拦截器 -->
 	<mvc:interceptors>
 		<bean class="com.crud.interceptor.FirstInterceptor"></bean>
 	</mvc:interceptors>
-	
-	
+
+
 	<!-- 切面 -->
 	<aop:config>
 		<aop:aspect ref="audience">
-			<aop:pointcut expression="execution(** com.myspring.perform.Performance.perform(..))" id="performance"/>
-			<aop:before method="silenceCellPhones" pointcut-ref="audience"/>
-			<aop:before method="takeSeats" pointcut-ref="audience"/>
-			<aop:after-returning method="applause" pointcut-ref="audience"/>
-			<aop:after-throwing method="demandRefund" pointcut-ref="audience"/>
+			<aop:pointcut
+				expression="execution(** com.myspring.perform.Performance.perform(..))"
+				id="performance" />
+			<aop:before method="silenceCellPhones" pointcut-ref="performance" />
+			<aop:before method="takeSeats" pointcut-ref="performance" />
+			<aop:after-returning method="applause"
+				pointcut-ref="performance" />
+			<aop:after-throwing method="demandRefund"
+				pointcut-ref="performance" />
 		</aop:aspect>
 	</aop:config>
+
+	<!-- 数据源配置 -->
+	<bean id="hikariDataSource" class="com.zaxxer.hikari.HikariDataSource"
+		destroy-method="close">
+		<constructor-arg ref="hikariConfig" />
+	</bean>
+
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="autoCommit" value="false" />
+		<property name="poolName" value="springHikariCP" />
+		<!-- 等待连接池分配连接的最大时长，缺省30000毫秒（30秒），超过这个时长还没可用的连接则发生SQLException -->
+		<property name="connectionTimeout" value="300000" />
+		<!-- 一个连接idle状态的最大时长，缺省600000毫秒（10分钟），超时则被释放（retired） -->
+		<property name="idleTimeout" value="600000" />
+		<!-- 一个连接的生命时长，缺省1800000毫秒（30分钟），超时而且没被使用则被释放（retired） -->
+		<property name="maxLifetime" value="1800000" />
+		<!-- This is the query that will be executed just before a connection is 
+			given to you from the pool to validate that the connection to the database 
+			is still alive -->
+		<property name="connectionTestQuery" value="select 1" />
+		<!-- 连接池中允许的最大连接数。缺省值：10 -->
+		<property name="maximumPoolSize" value="10" />
+		<property name="dataSourceClassName"
+			value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
+		<property name="dataSourceProperties">
+			<props>
+				<prop key="url">${mysql.url}</prop>
+				<prop key="user">${mysql.username}</prop>
+				<prop key="password">${mysql.password}</prop>
+				<prop key="prepStmtCacheSize">250</prop>
+				<prop key="prepStmtCacheSqlLimit">2048</prop>
+				<prop key="cachePrepStmts">true</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 自定义的bean -->
+	<bean id="jdbc" class="com.myspring.repo.JDBC">
+		<property name="dataSource">
+			<ref bean="hikariDataSource"/>
+		</property>
+	</bean>
+
+	<!-- jdbc数据源 -->
+	<context:property-placeholder location="classpath:mysql.properties" ignore-unresolvable="true"/>
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>${mysql.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${mysql.url}</value>
+		</property>
+		<property name="username">
+			<value>${mysql.username}</value>
+		</property>
+		<property name="password">
+			<value>${mysql.password}</value>
+		</property>
+	</bean>
 	
+	<!-- DBCP数据源 -->
+	<bean id="DBCPDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">
+			<value>${mysql.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${mysql.url}</value>
+		</property>
+		<property name="username">
+			<value>${mysql.username}</value>
+		</property>
+		<property name="password">
+			<value>${mysql.password}</value>
+		</property>
+		<property name="initialSize">
+			<value>5</value>
+		</property>
+		<property name="maxActive">
+			<value>10</value>
+		</property>
+	</bean>
 	
+	<!-- 利用JdbcTemplate进行数据库的操作 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg>
+			<ref bean="DBCPDataSource"/>
+		</constructor-arg>
+	</bean>
 	
+	<!-- 定义TransactionTemplate模板 -->
+	 <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager">
+            <ref bean="transactionManager"/>
+        </property>
+        <property name="propagationBehaviorName">
+            <value>PROPAGATION_REQUIRED</value>
+        </property>
+    </bean>
+    
+    
+    <!-- 定义事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource">
+            <ref bean="dataSource"></ref>
+        </property>
+    </bean>
+    
+    
+    
+
+
+
 </beans>
