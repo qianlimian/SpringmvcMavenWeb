@@ -22,6 +22,9 @@ public class UserTest {
 		//根据id进行查找
 		User user = userDao.findOne(1);
 		System.out.println(user);
+		//jdbc模板插入user
+		User userAdd = new User(10,"mark",23,"male");
+		userDao.addUser(userAdd);
 
 	}
 

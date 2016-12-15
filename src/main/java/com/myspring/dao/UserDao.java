@@ -20,6 +20,9 @@ public class UserDao implements UserDaoImpl{
 	@Autowired
 	@Qualifier("DBCPDataSource")
 	private DataSource dataSource;
+	/**
+	 * 使用jdbc模板插入数据
+	 */
 	@Autowired
 	private JdbcOperations jdbcOperations;
 	/**
@@ -51,7 +54,7 @@ public class UserDao implements UserDaoImpl{
 		
 	}
 	/**
-	 * 根据id查找
+	 * 根据id查找,jdbcTemplate实现
 	 */
 	@Override
 	public User findOne(Integer id) {
@@ -67,5 +70,15 @@ public class UserDao implements UserDaoImpl{
 		}
 		
 	}
+	/**
+	 * 添加用户，jdbcTemplate实现
+	 */
+	@Override
+	public void addUser(User user) {
+		String sql = "insert into tb_user (name,age,sex) values (?,?,?)";
+		jdbcOperations.update(sql,user.getName(),user.getAge(),user.getSex());
+		
+	}
+	
 
 }
