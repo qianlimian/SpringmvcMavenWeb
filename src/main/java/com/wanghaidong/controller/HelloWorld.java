@@ -95,4 +95,17 @@ public class HelloWorld {
 		return SUCCESS;
 	}
 	
+	/************************************************************************************************/
+	/**
+	 * 测试页面的入口
+	 * @description
+	 * @return String
+	 * @author wanghaidong
+	 * @date 2016年12月21日 下午3:23:04
+	 */
+	@RequestMapping(value="test",method=RequestMethod.GET)
+	public String testPage(){
+		return "testPage";
+	}
+	
 }

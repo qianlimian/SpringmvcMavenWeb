@@ -243,8 +243,10 @@
     
     <!-- 实现自动化的JPA Repository -->
     <jpa:repositories base-package="com.myspring"></jpa:repositories>
+    
+    
+    
 
-	
     
     
     
